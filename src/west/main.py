@@ -503,6 +503,7 @@ def main(argv=None):
     for_stack_trace = 'run as "west -v {}" for a stack trace'.format(
         quote_sh_list(argv))
     try:
+        print("handling")
         args.handler(args, unknown)
     except WestUpdated:
         # West has been automatically updated. Restart ourselves to run the
@@ -518,13 +519,16 @@ def main(argv=None):
         # https://bugs.python.org/issue9148
         # https://bugs.python.org/issue19124
         try:
-            proc = Popen([sys.argv[0]] + argv)
+            print('popening')
+            proc = Popen([sys.argv[0]] + ['list'])
             proc.communicate()
         except KeyboardInterrupt:
+            print('kbi child')
             sys.exit(0)
         log.dbg('proc.returncode: {}'.format(proc.returncode))
         sys.exit(errno.EIO if proc.returncode is None else proc.returncode)
     except KeyboardInterrupt:
+        print('kbi parent')
         sys.exit(0)
     except CalledProcessError as cpe:
         log.err('command exited with status {}: {}'.format(

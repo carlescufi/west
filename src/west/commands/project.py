@@ -134,6 +134,9 @@ class List(WestCommand):
     def do_run(self, args, user_args):
         # Only list west if it was given by name, or --all was given.
         list_west = bool(args.projects) or args.all
+        print('looping in list')
+        while True:
+            pass
 
         for project in _projects(args, include_west=True):
             if project.name == 'west' and not list_west:
@@ -200,6 +203,8 @@ class ManifestCommand(WestCommand):
         # We assume --freeze here. Future extensions to the group
         # --freeze is part of can move this code around.
 
+        print('raising update')
+        raise WestUpdated()
         m = Manifest.from_file()
 
         # Build a 'frozen' representation of all projects, except the
